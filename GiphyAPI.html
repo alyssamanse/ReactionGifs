@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Giftastic</title>
+</head>
+<body>
+
+<div id="gifButtons">
+</div>
+
+<form id="gifForm">
+	<label for="gif-input">Add a Reaction</label>
+	<input type="text" name="gif-input" id="gifInput"><br>
+
+	<input type="submit" value="Submit" id="addGif">
+</form>
+
+<div id="gifSeachResults">
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+var topics = ["Shocked", "Annoyed", "Yeah, Okay", "Ugly Crying", "Drunk", "Face Palm", "Judging You", "On Snap", "Fist Bump", "In Love", "OMG", "Hey Girl"];
+
+function displayGifs() {
+
+var gifTopic = $(this).attr("name");
+var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + gifTopic + "&api_key=253a4c48c46b4075a6789c18d316c4bf&limit=10";
+
+	$.ajax({
+		url: queryURL,
+		method: "GET"
+	}).done(function(response) {
+
+		$("#gifSeachResults").empty();
+
+		for (var i = 0; i < 10; i++) {
+		var currentGif = response.data[i];
+		var result = $("<div>");
+		result.append("<p> Rating: " + currentGif.rating);
+		var still = $("<img src='" + currentGif.images.original_still.url + "' width='300px' class='still'>");
+		result.append(still);
+		$("#gifSeachResults").append(result);
+		}	
+
+	})
+
+}
+
+function renderButtons() {
+
+	// Empties all existing buttons from #gifButtons div so there are no duplicates as buttons are added and rendered
+	$("#gifButtons").empty();
+
+	// Loops through all items in the topics array and creates a button to append to the #gifButtons div
+	topics.forEach(function(topic) {
+		var gifBtn = $("<button>");
+		gifBtn.addClass("gifBtn")
+		.attr("name", topic)
+		.text(topic);
+		$("#gifButtons").append(gifBtn);
+
+	})
+
+}
+
+$("#addGif").click(function(event) {
+	event.preventDefault();
+
+	var newTopic = $("#gifInput").val().trim();
+
+	topics.push(newTopic);
+
+	renderButtons();
+})
+
+$(document).on("click", ".gifBtn", displayGifs);
+
+renderButtons();
+
+</script>
+
+</body>
+</html>
+
+
