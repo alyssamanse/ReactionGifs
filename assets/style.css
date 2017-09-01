@@ -2,6 +2,7 @@
 	margin: 5px;
 	padding: 5px 15px;
 	font-family: 'Cabin', sans-serif;
+	text-transform: capitalize;
 }
 
 .renderedGif {
