@@ -1,16 +1,23 @@
 .gifBtn {
 	margin: 5px;
 	padding: 5px 15px;
+	font-family: 'Cabin', sans-serif;
 }
 
 .renderedGif {
 	float: left;
 	display: inline-block;
 	margin: 10px;
+	font-family: 'Cabin', sans-serif;
 }
 
 #gifForm {
 	float: right;
 	margin-top: 10px;
 	margin-right: 25px;
+	font-family: 'Cabin', sans-serif;
+}
+
+body {
+	background-image: url("subtle_white_mini_waves.png");
 }
