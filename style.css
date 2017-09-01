@@ -1,0 +1,15 @@
+.gifBtn {
+	margin: 5px;
+	padding: 5px 15px;
+}
+
+#renderedGif {
+	float: left;
+	display: inline-block;
+	margin: 10px;
+}
+
+#gifForm {
+	float: right;
+	margin: 10px;
+}

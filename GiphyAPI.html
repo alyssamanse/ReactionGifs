@@ -2,20 +2,35 @@
 <html>
 <head>
 	<title>Giftastic</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
 
-<div id="gifButtons">
-</div>
+<div class="container-fluid">
 
-<form id="gifForm">
-	<label for="gif-input">Add a Reaction</label>
-	<input type="text" name="gif-input" id="gifInput"><br>
+	<div class="row">
+		<div class="col-md-12">
+			<div id="gifButtons"></div>
+		</div>
+	</div>
 
-	<input type="submit" value="Submit" id="addGif">
-</form>
+	<div class="row">
+		<div class="col-md-3">
+			<form id="gifForm">
+				<label for="gif-input">Add a Reaction</label>
+				<input type="text" name="gif-input" id="gifInput"><br>
 
-<div id="gifSeachResults">
+				<input type="submit" value="Submit" id="addGif" class="btn-success">
+			</form>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div id="gifSeachResults"></div>
+		</div>
+	</div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -33,13 +48,20 @@ var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + gifTopic + "&api_key=
 		method: "GET"
 	}).done(function(response) {
 
+		// Empties previous search results
 		$("#gifSeachResults").empty();
 
+		// Loops through all 10 GIPHY responses and creates a new div for the rating and image
 		for (var i = 0; i < 10; i++) {
 		var currentGif = response.data[i];
-		var result = $("<div>");
-		result.append("<p> Rating: " + currentGif.rating);
-		var still = $("<img src='" + currentGif.images.original_still.url + "' width='300px' class='still'>");
+		var result = $("<div id='renderedGif''>");
+
+		// Changed the rating to lowercase because it looks better
+		var rating = (currentGif.rating).toUpperCase();
+		result.append("<p> Rating: " + rating);
+
+		// Appends still image of gif to page
+		var still = $("<img src='" + currentGif.images.original_still.url + "' width='300px' height='300px'>");
 		result.append(still);
 		$("#gifSeachResults").append(result);
 		}	
@@ -56,7 +78,7 @@ function renderButtons() {
 	// Loops through all items in the topics array and creates a button to append to the #gifButtons div
 	topics.forEach(function(topic) {
 		var gifBtn = $("<button>");
-		gifBtn.addClass("gifBtn")
+		gifBtn.addClass("gifBtn btn-primary")
 		.attr("name", topic)
 		.text(topic);
 		$("#gifButtons").append(gifBtn);
@@ -66,18 +88,28 @@ function renderButtons() {
 }
 
 $("#addGif").click(function(event) {
+
+	// Instead of submitting anything, the action is prevented to allow for additional buttons to be created
 	event.preventDefault();
 
+	// Getting the value of the user input and removing any spaces before or after characters
 	var newTopic = $("#gifInput").val().trim();
 
+	// Adds the user input as the last item in the topics array to be looped through and create buttons for all in array
 	topics.push(newTopic);
 
 	renderButtons();
 })
 
+// When the user clicks on any of the .gifBtn elements, the displayGifs function will run
 $(document).on("click", ".gifBtn", displayGifs);
 
 renderButtons();
+
+// CLICK FUNCTION: WHEN STILL IMAGES ARE CLICKED, START MOVING GIF
+// CLICK FUNCTION: WHEN GIFS ARE ACTIVE, CLICK TO STOP
+
+// STYLE CSS
 
 </script>
 
