@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<div class="container-fluid">
+<div class="container-fluid wrapper">
 
 	<div class="row">
 		<div class="col-md-12">
@@ -54,14 +54,13 @@ var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + gifTopic + "&api_key=
 
 		// Empties previous search results
 		$("#gifSeachResults").empty();
-		
 
 		// Loops through all 10 GIPHY responses and creates a new div for the rating and image
 		for (var i = 0; i < 10; i++) {
 		var currentGif = response.data[i];
 		var result = $("<div class='renderedGif''>");
 
-		// Changed the rating to lowercase because it looks better
+		// Changed the rating to uppercase because it looks better
 		var rating = (currentGif.rating).toUpperCase();
 		result.append("<p> Rating: " + rating);
 
@@ -70,6 +69,7 @@ var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + gifTopic + "&api_key=
 		result.append(still);
 		$("#gifSeachResults").append(result);
 
+		// Switches output of alternating clicks from still to playing
 		var toggle = 0;
 		still.on("click", function(event){
 			if (toggle === 0) {
@@ -115,6 +115,7 @@ $("#addGif").click(function(event) {
 	// Adds the user input as the last item in the topics array to be looped through and create buttons for all in array
 	topics.push(newTopic);
 
+	// Calls function to create buttons for all items in array, including the new addition
 	renderButtons();
 })
 
