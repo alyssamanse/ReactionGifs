@@ -50,24 +50,37 @@ var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + gifTopic + "&api_key=
 
 		// Empties previous search results
 		$("#gifSeachResults").empty();
+		
 
 		// Loops through all 10 GIPHY responses and creates a new div for the rating and image
 		for (var i = 0; i < 10; i++) {
 		var currentGif = response.data[i];
-		var result = $("<div id='renderedGif''>");
+		var result = $("<div class='renderedGif''>");
 
 		// Changed the rating to lowercase because it looks better
 		var rating = (currentGif.rating).toUpperCase();
 		result.append("<p> Rating: " + rating);
 
 		// Appends still image of gif to page
-		var still = $("<img src='" + currentGif.images.original_still.url + "' width='300px' height='300px'>");
+		var still = $("<img src='" + currentGif.images.original_still.url + "' width='300px' height='300px' name='" + currentGif.images.original.url + "' data-url='" + currentGif.images.original_still.url + "'>");
 		result.append(still);
 		$("#gifSeachResults").append(result);
-		}	
+
+		var toggle = 0;
+		still.on("click", function(event){
+			if (toggle === 0) {
+				$(this).attr("src", ($(this).attr("name")));
+				toggle = 1;
+			} else if (toggle === 1) {
+				$(this).attr("src", ($(this).attr("data-url")));
+				toggle = 0;
+			}
+			
+		})
+
+		}
 
 	})
-
 }
 
 function renderButtons() {
@@ -105,11 +118,6 @@ $("#addGif").click(function(event) {
 $(document).on("click", ".gifBtn", displayGifs);
 
 renderButtons();
-
-// CLICK FUNCTION: WHEN STILL IMAGES ARE CLICKED, START MOVING GIF
-// CLICK FUNCTION: WHEN GIFS ARE ACTIVE, CLICK TO STOP
-
-// STYLE CSS
 
 </script>
 
