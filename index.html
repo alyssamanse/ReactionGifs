@@ -9,28 +9,19 @@
 <body>
 
 <div class="container-fluid wrapper">
-
 	<div class="row">
 		<div class="col-md-12">
 			<div id="gifButtons"></div>
 		</div>
 	</div>
-
 	<div class="row">
-		
-	</div>
-
-	<div class="row">
-
 		<div class="col-md-9">
 			<div id="gifSeachResults"></div>
 		</div>
-
 		<div class="col-md-3">
 			<form id="gifForm">
-				<label for="gif-input">Find Your Feel</label>
+				<label for="gif-input" class="formText">Find Your Feel</label>
 				<input type="text" name="gif-input" id="gifInput"><br>
-
 				<input type="submit" value="Submit" id="addGif" class="btn-success">
 			</form>
 		</div>
@@ -40,7 +31,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript">
 
-var topics = ["Shocked", "Annoyed", "Yeah, Okay", "Ugly Crying", "Drunk", "Face Palm", "Judging You", "On Snap", "Fist Bump", "In Love", "OMG", "Hey Girl"];
+var topics = ["Shocked", "Annoyed", "Ugly Crying", "Drunk", "Face Palm", "Judging You", "On Snap", "Fist Bump", "In Love", "OMG", "Hey Girl"];
 
 function displayGifs() {
 
@@ -66,6 +57,7 @@ var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + gifTopic + "&api_key=
 
 		// Appends still image of gif to page
 		var still = $("<img src='" + currentGif.images.original_still.url + "' width='300px' height='300px' name='" + currentGif.images.original.url + "' data-url='" + currentGif.images.original_still.url + "'>");
+		still.addClass("img-rounded");
 		result.append(still);
 		$("#gifSeachResults").append(result);
 
@@ -79,11 +71,8 @@ var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + gifTopic + "&api_key=
 				$(this).attr("src", ($(this).attr("data-url")));
 				toggle = 0;
 			}
-			
 		})
-
 		}
-
 	})
 }
 
@@ -95,13 +84,11 @@ function renderButtons() {
 	// Loops through all items in the topics array and creates a button to append to the #gifButtons div
 	topics.forEach(function(topic) {
 		var gifBtn = $("<button>");
-		gifBtn.addClass("gifBtn btn-primary")
+		gifBtn.addClass("gifBtn btn-primary btn-lg")
 		.attr("name", topic)
 		.text(topic);
 		$("#gifButtons").append(gifBtn);
-
 	})
-
 }
 
 $("#addGif").click(function(event) {
